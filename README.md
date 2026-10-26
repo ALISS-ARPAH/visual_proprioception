@@ -1,7 +1,7 @@
 # Desctiption
 ALISS/ARPA-H Visual Proprioception Package
 
-This repository contains visual proprioception code/algorithm for estimating depth/touch for bladder application. 
+This repository contains visual proprioception code/algorithm that uses laser beam info for estimating depth/touch for bladder application. 
 
 
 # Authors 
