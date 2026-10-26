@@ -1,3 +1,12 @@
+# Desctiption
+ALISS/ARPA-H Visual Proprioception Package
+
+This repository contains visual proprioception code/algorithm for estimating depth/touch for bladder application. 
+
+
+# Authors 
+* **Maintainer:** Mahshid Mansouri (mahshidalsadat.mansouri@vanderbilt.edu)
+
 # Visual Proprioception
 
 ROS 2 package for laser-based visual proprioception with a concentric tube robot (CTR). It detects the green laser spot in endoscopic images, measures spot geometry, estimates laser-to-tissue distance by triangulation, and provides a simple area-threshold-based tissue-contact indication.
