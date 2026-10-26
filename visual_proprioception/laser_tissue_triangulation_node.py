@@ -499,19 +499,19 @@ class LaserTissueTriangulationNode(Node):
         pl = ol + s * dl
         residual = float(np.linalg.norm(pc - pl))
 
-        self.get_logger().info(
-            f'offset={offset.tolist()}, '
-            f'axis={axis.tolist()}, '
-            f'laser_origin={ol.round(5)}, '
-            f'laser_direction={dl.round(5)}, '
-            f'camera_range={lam*1000:.2f} mm, '
-            f'laser_range={s*1000:.2f} mm, '
-            f'residual={residual*1000:.2f} mm, '
-            f'angle={angle:.2f} deg, '
-            f'emitter_to_camera_ray={emitter_to_camera_ray*1000:.2f} mm, '
-            f'camera_at_emitter={camera_at_emitter*1000:.2f} mm, '
-            f'pose_sync_dt={dt*1000:.1f} ms'
-        )
+        # self.get_logger().info(
+        #     f'offset={offset.tolist()}, '
+        #     f'axis={axis.tolist()}, '
+        #     f'laser_origin={ol.round(5)}, '
+        #     f'laser_direction={dl.round(5)}, '
+        #     f'camera_range={lam*1000:.2f} mm, '
+        #     f'laser_range={s*1000:.2f} mm, '
+        #     f'residual={residual*1000:.2f} mm, '
+        #     f'angle={angle:.2f} deg, '
+        #     f'emitter_to_camera_ray={emitter_to_camera_ray*1000:.2f} mm, '
+        #     f'camera_at_emitter={camera_at_emitter*1000:.2f} mm, '
+        #     f'pose_sync_dt={dt*1000:.1f} ms'
+        # )
 
         min_range = float(self.get_parameter('min_range_m').value)
         max_range = float(self.get_parameter('max_range_m').value)
@@ -525,10 +525,10 @@ class LaserTissueTriangulationNode(Node):
             residual=residual, valid=triangulation_valid)
 
         if lam <= 0 or not min_range <= s <= max_range:
-            self.get_logger().warn(
-                f'N/A: invalid ray ranges '
-                f'(camera={lam:.3f}m, laser={s:.3f}m)',
-                throttle_duration_sec=3.0)
+            # self.get_logger().warn(
+            #     f'N/A: invalid ray ranges '
+            #     f'(camera={lam:.3f}m, laser={s:.3f}m)',
+            #     throttle_duration_sec=3.0)
             return
         if residual > float(self.get_parameter('max_ray_residual_m').value):
             self.get_logger().warn(
