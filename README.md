@@ -78,8 +78,10 @@ ros2 topic echo /laser/tissue_distance
 ros2 topic echo /tissue_touched
 ```
 
-## Notes
+## GUI Monitoring and Contact Threshold Adjustment
 
-- The touch output is **an area-threshold heuristic**, not a direct force or contact sensor.
-- Triangulation depends on accurate camera calibration, laser geometry, and CTR tip pose. Incorrect frame alignment or nearly parallel rays can make distance estimates invalid.
-- This package estimates laser spot geometry and tissue proximity; it does not itself command robot motion.
+The package includes a monitoring GUI (`laser_spot_monitor_gui`) that displays the live endoscopic image with the detected laser spot and fitted ellipse overlaid. The GUI also provides a real-time plot of the laser spot area (in pixels²) and a contact detection indicator showing whether the laser is considered to be touching the tissue.
+
+Users can manually adjust the **contact detection threshold** through an editable field in the GUI. The threshold defines the minimum detected laser spot area required to classify tissue contact. After entering a new threshold and applying the change, the GUI updates the `area_threshold_px2` parameter of the `laser_tissue_touch_node` through ROS2. This allows users to tune contact detection during experiments without restarting the nodes.
+
+By default, the contact threshold is set to **1000 pixels²**, but it can be adjusted based on imaging conditions and experimental observations.
