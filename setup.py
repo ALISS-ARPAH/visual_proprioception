@@ -19,7 +19,7 @@ setup(
         ),
         (
             'share/' + package_name + '/launch',
-            ['launch/laser_depth_estimation.launch.py']
+            ['launch/laser_depth_estimation.launch.py', 'launch/laser_cut_predictor.launch.py']
         ),
         (
             'share/' + package_name + '/models/cut_depth_combined',
@@ -42,6 +42,7 @@ setup(
             'laser_tissue_touch_node = visual_proprioception.laser_tissue_touch_node:main',
             'laser_spot_monitor_gui = visual_proprioception.laser_spot_monitor_gui:main',
             'laser_contact_model_node = visual_proprioception.laser_contact_model_node:main',
+            'laser_cut_predictor_node = visual_proprioception.laser_cut_predictor_node:main',
             'build_contact_dataset = visual_proprioception.contact_dataset:main',
             'train_contact_model = visual_proprioception.contact_train:main',
             'render_contact_video = visual_proprioception.contact_video:main',

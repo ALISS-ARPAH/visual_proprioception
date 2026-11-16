@@ -188,7 +188,11 @@ ros2 run visual_proprioception score_contact_bag --bag ~/aliss_runs/test_data/cu
 ~/aliss_runs/contact_venv/bin/python scripts/colleague/score_bag.py <bag> $MODEL /tmp/colleague.onnx both.csv
 ~/aliss_runs/contact_venv/bin/python scripts/colleague/evaluate_bag.py both.csv
 
-# 3. Run the model live (system Python; the CNN runs through OpenCV, no PyTorch)
+# 3. Run the model live on the robot (system Python; the CNN runs through OpenCV, no PyTorch).
+#    Loads the shipped model by default and publishes /laser/cut/{probability,close,ready,overlay}:
+ros2 launch visual_proprioception laser_cut_predictor.launch.py
+#    or: ros2 run visual_proprioception laser_cut_predictor_node
+#    The same processing under the older /laser/contact/* topic names:
 ros2 run visual_proprioception laser_contact_model_node --ros-args -p model_path:=$MODEL
 ```
 
@@ -220,19 +224,32 @@ The 1 mm / 2 mm values are a working assumption, not a measured cutting range. E
 
 Results go to `metrics.json`, and per-frame held-out predictions to `<model>/oof_predictions.csv` and `timelines.png`.
 
-**Runtime.** The node publishes P on `/laser/contact/probability` and two flags:
-- `/laser/contact/suspected`: P ≥ 0.6, close, slow down
-- `/laser/contact/touched`: P ≥ 0.8, at cutting depth
+**Runtime.** `laser_cut_predictor_node` is the node for robotic resection. It estimates whether the current probe depth will give a successful cut.
 
-The topic names predate the cutting-depth target.
+It subscribes to:
+- `/ves_camera/image`
+- `/ves_camera/camera_info`
+- the probe tip pose `/ves_smoother/right/tip_pose` (`PoseWithCovarianceStamped`, in the camera frame)
+
+It publishes:
+
+| Topic | Type | Meaning |
+|---|---|---|
+| `/laser/cut/probability` | `Float64` | P(firing now cuts), the mean over the last 0.3 s; NaN while no frames arrive |
+| `/laser/cut/close` | `Bool` | P ≥ 0.6: close to cutting depth |
+| `/laser/cut/ready` | `Bool` | P ≥ 0.8: at cutting depth, firing should cut |
+| `/laser/cut/overlay` | `Image` | the spot, crop box, projected tip and P; rendered only while subscribed |
+
+`model_path` defaults to the installed `models/cut_depth_combined/model.json`. `laser_contact_model_node` runs the same code, but needs `model_path` and publishes under the older names: `/laser/contact/probability`, `/laser/contact/suspected` (≥ 0.6) and `/laser/contact/touched` (≥ 0.8). Both nodes take these parameters:
 
 - **Thresholds:** stored in `model.json`; override with `suspect_threshold` and `confirm_threshold`.
 - **Smoothing:** `smooth_sec` (default: the model's value, 0.3 s; 0 = off) publishes the mean P over that window.
 - **Rectification:** the models were trained on rectified 540×540 frames. Raw `/ves_camera/image` frames (1080×1080 with lens distortion) are undistorted with `CameraInfo`, as `image_proc` does, then resized. Frames that are already rectified 540×540 pass through unchanged.
 - **Tip pose:** the node needs `/ves_smoother/right/tip_pose` and `/ves_camera/camera_info` (`tip_pose_topic`, `camera_info_topic`), with a pose within `tip_max_age_sec` (0.1 s) of each frame. Without them the crop falls back to the last seen spot, and the node warns, since the model was trained with the tip.
 - **Timeout:** if frames stop for `timeout_sec`, it publishes NaN and False and resets.
-- **Overlay:** `/laser/contact/overlay` shows the spot, the crop box and the projected tip.
-- **Existing GUI:** add `-r /laser/contact/touched:=/tissue_touched`, and don't run `laser_tissue_touch_node`.
+- **Overlay:** `/laser/cut/overlay` (or `/laser/contact/overlay`) shows the spot, the crop box and the projected tip.
+- **Existing GUI:** add `-r /laser/cut/ready:=/tissue_touched` (or `-r /laser/contact/touched:=/tissue_touched`), and don't run `laser_tissue_touch_node`.
+- **Launch file:** `laser_cut_predictor.launch.py` exposes `model_path`, the three input topics, the thresholds, `smooth_sec` and `use_sim_time`.
 
 The combined model takes about 13 ms per 540×540 frame on CPU.
 

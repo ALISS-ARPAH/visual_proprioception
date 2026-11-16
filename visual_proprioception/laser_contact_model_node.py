@@ -53,8 +53,13 @@ def stamp_seconds(header):
 
 
 class LaserContactModelNode(Node):
-    def __init__(self):
-        super().__init__('laser_contact_model_node')
+    # Overlay wording for P >= confirm, P >= suspect and below, and the P label.
+    STATES = ('CONTACT', 'SUSPECTED', 'no contact')
+    PROB_LABEL = 'P(contact)'
+
+    def __init__(self, node_name='laser_contact_model_node', overrides=None, **node_kwargs):
+        """Create the node; `overrides` replaces parameter defaults (see the cut predictor)."""
+        super().__init__(node_name, **node_kwargs)
         defaults = {
             'image_topic': '/ves_camera/image',
             'model_path': '',
@@ -71,6 +76,7 @@ class LaserContactModelNode(Node):
             'camera_info_topic': '/ves_camera/camera_info',
             'tip_max_age_sec': 0.1,      # pose must be this close to the image stamp; <= 0: off
         }
+        defaults.update(overrides or {})
         for name, value in defaults.items():
             self.declare_parameter(name, value)
 
@@ -194,13 +200,13 @@ class LaserContactModelNode(Node):
         suspect, confirm = self.thresholds()
         depth = self.model.target == 'depth'
         if self.model.at_threshold(prob, confirm):
-            state, color = 'AT DEPTH' if depth else 'CONTACT', (0, 220, 0)
+            state, color = 'AT DEPTH' if depth else self.STATES[0], (0, 220, 0)
         elif self.model.at_threshold(prob, suspect):
-            state, color = 'CLOSE' if depth else 'SUSPECTED', (0, 200, 255)
+            state, color = 'CLOSE' if depth else self.STATES[1], (0, 200, 255)
         else:
-            state, color = 'too far' if depth else 'no contact', (0, 0, 255)
+            state, color = 'too far' if depth else self.STATES[2], (0, 0, 255)
         label = (f'{prob:+.1f} mm to cut depth  {state}' if depth
-                 else f'P(contact) {prob:.2f}  {state}')
+                 else f'{self.PROB_LABEL} {prob:.2f}  {state}')
         for thickness, col in ((5, (0, 0, 0)), (2, color)):
             cv2.putText(canvas, label, (12, canvas.shape[0] - 18), cv2.FONT_HERSHEY_SIMPLEX,
                         0.7, col, thickness, cv2.LINE_AA)
