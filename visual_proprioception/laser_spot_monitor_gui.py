@@ -25,6 +25,34 @@ TOUCH_TOPIC = '/tissue_touched'
 TOUCH_NODE = '/laser_tissue_touch_node'
 PARAMETER = 'area_threshold_px2'
 
+# Learned cut prediction from laser_cut_predictor_node (P that firing now cuts).
+CUT_PROB_TOPIC = '/laser/cut/probability'
+CUT_CLOSE_TOPIC = '/laser/cut/close'   # P >= 0.6
+CUT_READY_TOPIC = '/laser/cut/ready'   # P >= 0.8
+# Banner label, background and text colour per state.
+CUT_STATES = {
+    'ready': ('RIGHT DEPTH', '#1e8e3e', 'white'),
+    'close': ('CLOSE', '#f9ab00', 'black'),
+    'shallow': ('TOO SHALLOW', '#c5221f', 'white'),
+    'none': ('N/A', '#5f6368', 'white'),
+}
+
+
+def cut_banner(prob, close, ready, last_rx, now, max_age=1.0):
+    """
+    Return (text, background, foreground) for the cut-prediction banner.
+
+    The state comes from the predictor's own flags (/laser/cut/ready, /laser/cut/close),
+    so it follows any thresholds set on that node.
+    """
+    _, bg, fg = CUT_STATES['none']
+    if last_rx is None or now - last_rx > max_age:
+        return 'Cut prediction: N/A (is laser_cut_predictor_node running?)', bg, fg
+    if not math.isfinite(prob) or close is None or ready is None:
+        return 'Cut prediction: N/A (the predictor has no camera frames)', bg, fg
+    label, bg, fg = CUT_STATES['ready' if ready else 'close' if close else 'shallow']
+    return f'Cut: {label}    P(successful cut) = {prob:.2f}', bg, fg
+
 
 class MonitorNode(Node):
     def __init__(self):
@@ -37,10 +65,17 @@ class MonitorNode(Node):
         self.last_area_rx = None
         self.times = deque(maxlen=3000)
         self.areas = deque(maxlen=3000)
+        self.cut_prob = float('nan')
+        self.cut_close = None
+        self.cut_ready = None
+        self.last_cut_rx = None
         self.client = AsyncParameterClient(self, TOUCH_NODE)
         self.create_subscription(Image, IMAGE_TOPIC, self.image_cb, 10)
         self.create_subscription(Float64, AREA_TOPIC, self.area_cb, 10)
         self.create_subscription(Bool, TOUCH_TOPIC, self.touch_cb, 10)
+        self.create_subscription(Float64, CUT_PROB_TOPIC, self.cut_prob_cb, 10)
+        self.create_subscription(Bool, CUT_CLOSE_TOPIC, self.cut_close_cb, 10)
+        self.create_subscription(Bool, CUT_READY_TOPIC, self.cut_ready_cb, 10)
 
     def image_cb(self, msg):
         try:
@@ -62,6 +97,19 @@ class MonitorNode(Node):
     def touch_cb(self, msg):
         with self.lock:
             self.latest_touch = bool(msg.data)
+
+    def cut_prob_cb(self, msg):
+        with self.lock:
+            self.cut_prob = float(msg.data)
+            self.last_cut_rx = time.monotonic()
+
+    def cut_close_cb(self, msg):
+        with self.lock:
+            self.cut_close = bool(msg.data)
+
+    def cut_ready_cb(self, msg):
+        with self.lock:
+            self.cut_ready = bool(msg.data)
 
 
 class MonitorGUI:
@@ -104,6 +152,11 @@ class MonitorGUI:
         panels.pack(fill='both', expand=True)
         left = ttk.LabelFrame(panels, text=IMAGE_TOPIC, padding=6)
         left.pack(side='left', fill='both', expand=True, padx=(0, 6))
+        self.cut_var = tk.StringVar()
+        self.cut_label = tk.Label(left, textvariable=self.cut_var, font=('Arial', 16, 'bold'),
+                                  anchor='center', pady=6)
+        self.cut_label.pack(fill='x', pady=(0, 6))
+        self.show_cut_banner(*cut_banner(float('nan'), None, None, None, time.monotonic()))
         self.image_label = ttk.Label(left, text='Waiting for image...', anchor='center')
         self.image_label.pack(fill='both', expand=True)
 
@@ -199,7 +252,10 @@ class MonitorGUI:
             last_rx = self.node.last_area_rx
             times = list(self.node.times)
             areas = list(self.node.areas)
+            cut = (self.node.cut_prob, self.node.cut_close, self.node.cut_ready,
+                   self.node.last_cut_rx)
         now = time.monotonic()
+        self.show_cut_banner(*cut_banner(*cut, now))
         stale = last_rx is None or now - last_rx > 1.0
         self.area_var.set('Spot area: N/A' if stale or not math.isfinite(area)
                           else f'Spot area: {area:.1f} px²')
@@ -233,6 +289,10 @@ class MonitorGUI:
             self.ax.set_ylim(0, max(1, top))
             self.canvas.draw_idle()
         self.root.after(100, self.update_ui)
+
+    def show_cut_banner(self, text, background, foreground):
+        self.cut_var.set(text)
+        self.cut_label.configure(bg=background, fg=foreground)
 
     def close(self):
         self.running = False

@@ -91,3 +91,15 @@ def test_node_publishes_probability_and_flags(monkeypatch):
             if n is not None:
                 n.destroy_node()
         rclpy.shutdown(context=context)
+
+
+def test_gui_banner_shows_depth_state_from_predictor_flags():
+    from visual_proprioception.laser_spot_monitor_gui import cut_banner
+    now = 100.0
+    text, bg, _ = cut_banner(0.91, True, True, now - 0.1, now)
+    assert 'RIGHT DEPTH' in text and '0.91' in text and bg == '#1e8e3e'
+    assert 'CLOSE' in cut_banner(0.7, True, False, now, now)[0]
+    assert 'TOO SHALLOW' in cut_banner(0.2, False, False, now, now)[0]
+    assert 'running?' in cut_banner(0.9, True, True, now - 5.0, now)[0]     # stale
+    assert 'running?' in cut_banner(float('nan'), None, None, None, now)[0]  # never heard
+    assert 'no camera frames' in cut_banner(float('nan'), False, False, now, now)[0]

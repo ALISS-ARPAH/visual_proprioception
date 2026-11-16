@@ -87,6 +87,18 @@ Users can manually adjust the **contact detection threshold** through an editabl
 
 By default, the contact threshold is set to **1000 pixels²**, but it can be adjusted based on imaging conditions and experimental observations.
 
+A banner above the segmented image shows the learned cut prediction from `laser_cut_predictor_node` (see [Learned contact model](#learned-contact-model)): whether firing now would give a successful cut, and its probability.
+
+| Banner | Shown when |
+|---|---|
+| **TOO SHALLOW** (red) | P < 0.6 |
+| **CLOSE** (amber) | P from 0.6 up to 0.8 |
+| **RIGHT DEPTH** (green) | P ≥ 0.8 |
+
+The state comes from the predictor's `/laser/cut/close` and `/laser/cut/ready` flags, so it follows any thresholds set on that node. The banner shows N/A if the predictor isn't running or has no camera frames.
+
+`laser_depth_estimation.launch.py` starts the predictor along with the other nodes. Pass `cut_predictor:=false` to leave it out.
+
 ## Learned contact model
 
 An alternative to the area threshold. For every endoscope frame it outputs **P(the fiber is at a cutting depth)**: close enough to the tissue that firing will cut. The fiber doesn't have to touch; it can be a little above the surface.
