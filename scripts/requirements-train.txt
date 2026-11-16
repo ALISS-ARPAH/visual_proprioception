@@ -1,0 +1,11 @@
+# Training venv for the learned cut-depth model (see scripts/setup_train_venv.sh).
+# The venv is created with --system-site-packages, so ROS 2 Jazzy (rclpy, rosbag2_py) and the
+# apt OpenCV 4.6 come from the system. numpy must stay below 2: the apt OpenCV is built
+# against numpy 1.x. Versions are the ones the shipped model was trained with (CUDA 12.8 wheels,
+# RTX 5080).
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+onnx==1.23.2
+onnxscript==0.7.2
+numpy==1.26.4

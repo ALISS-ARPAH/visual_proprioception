@@ -1,0 +1,35 @@
+WARNING: skipping empty /media/james/Backup Plus/lesion_2/cut_1/cut_1_17.mcap
+WARNING: skipping empty /media/james/Backup Plus/lesion_2/cut_1/cut_1_18.mcap
+/media/james/Backup Plus/lesion_2/cut_1: no metadata.yaml; reading 17 split files in order
+  1000 frames, 53 s of recording, 106 s elapsed
+  2000 frames, 86 s of recording, 229 s elapsed
+  3000 frames, 120 s of recording, 347 s elapsed
+  4000 frames, 153 s of recording, 419 s elapsed
+  5000 frames, 186 s of recording, 470 s elapsed
+  6000 frames, 220 s of recording, 560 s elapsed
+  7000 frames, 253 s of recording, 648 s elapsed
+  8000 frames, 286 s of recording, 681 s elapsed
+  9000 frames, 320 s of recording, 715 s elapsed
+  10000 frames, 353 s of recording, 751 s elapsed
+  11000 frames, 386 s of recording, 785 s elapsed
+  12000 frames, 420 s of recording, 822 s elapsed
+  13000 frames, 453 s of recording, 863 s elapsed
+  14000 frames, 486 s of recording, 902 s elapsed
+  15000 frames, 520 s of recording, 945 s elapsed
+  16000 frames, 553 s of recording, 1007 s elapsed
+  17000 frames, 586 s of recording, 1074 s elapsed
+  18000 frames, 620 s of recording, 1127 s elapsed
+  19000 frames, 653 s of recording, 1208 s elapsed
+  20000 frames, 686 s of recording, 1305 s elapsed
+  21000 frames, 720 s of recording, 1383 s elapsed
+[WARN] [1794601314.732035235] [rosbag2_storage_mcap]: attempted to read in receive timestamp order with no message index
+[WARN] [1794601314.732077200] [rosbag2_cpp]: Could not set read order on open(), falling back to file order
+  22000 frames, 753 s of recording, 1544 s elapsed
+[WARN] [1794601453.214447732] [rosbag2_storage_mcap]: attempted to read in receive timestamp order with no message index
+[WARN] [1794601453.214482519] [rosbag2_cpp]: Could not set read order on open(), falling back to file order
+  23000 frames, 790 s of recording, 1676 s elapsed
+/home/james/aliss_runs/test_data/lesion_2_cut_1_prediction.mp4 (792 s video) and /home/james/aliss_runs/test_data/lesion_2_cut_1_prediction.csv
+23684 frames over 813 s; laser on in 20% of frames
+  laser on : mean P 0.64, P >= 0.8 in 54%
+  laser off: mean P 0.15, P >= 0.8 in 10%
+  50 laser-on events; P >= 0.8 in the second before 37 of them (74%)

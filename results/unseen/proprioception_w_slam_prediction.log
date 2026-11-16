@@ -1,0 +1,11 @@
+/media/james/Backup Plus/proprioception_w_slam: no metadata.yaml; reading 3 split files in order
+  1000 frames, 78 s of recording, 88 s elapsed
+[WARN] [1794602165.458318265] [rosbag2_storage_mcap]: attempted to read in receive timestamp order with no message index
+[WARN] [1794602165.458338606] [rosbag2_cpp]: Could not set read order on open(), falling back to file order
+  2000 frames, 112 s of recording, 139 s elapsed
+[WARN] [1794602195.345069603] [rosbag2_storage_mcap]: attempted to read in receive timestamp order with no message index
+[WARN] [1794602195.345098625] [rosbag2_cpp]: Could not set read order on open(), falling back to file order
+  3000 frames, 154 s of recording, 164 s elapsed
+/home/james/aliss_runs/test_data/proprioception_w_slam_prediction.mp4 (116 s video) and /home/james/aliss_runs/test_data/proprioception_w_slam_prediction.csv
+3402 frames over 167 s; laser on in 0% of frames
+  laser off: mean P 0.11, P >= 0.8 in 1%

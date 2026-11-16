@@ -1,0 +1,9 @@
+  1000 frames, 216 s of recording, 29 s elapsed
+  2000 frames, 249 s of recording, 59 s elapsed
+  3000 frames, 283 s of recording, 89 s elapsed
+  4000 frames, 316 s of recording, 119 s elapsed
+/home/james/aliss_runs/test_data/marking_prediction.mp4 (141 s video) and /home/james/aliss_runs/test_data/marking_prediction.csv
+4196 frames over 323 s; laser on in 15% of frames
+  laser on : mean P 0.74, P >= 0.8 in 66%
+  laser off: mean P 0.30, P >= 0.8 in 20%
+  18 laser-on events; P >= 0.8 in the second before 13 of them (72%)

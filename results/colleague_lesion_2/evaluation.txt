@@ -1,0 +1,20 @@
+23684 frames, 50 firings (50 with a usable tip pose, 2 retried); approach frames labelled: 1472 yes, 8082 no
+colleague model has a score on 81% of frames (needs the projected tip in the image); ours on 100%
+compared on frames where both have a score: 1472 yes, 8082 no
+
+model                                AUC 0.5mm   AUC 1mm AUC 1.5mm   AUC 2mm  AUC cutting
+ours (raw)                                0.90      0.91      0.91      0.91         0.89
+ours (0.3 s smoothed, as live)            0.90      0.90      0.90      0.89         0.90
+colleague (raw)                           0.75      0.73      0.74      0.74         0.83
+colleague (0.3 s smoothed)                0.74      0.73      0.73      0.73         0.83
+
+At each model's own threshold (ours 0.8 smoothed, colleague 0.5 raw), firings with a score in the 1 s before:
+  ours       flagged before 37 of 50 firings (74%); "no" frames (>= 2 mm short) flagged 5%; all laser-off frames flagged 13%
+  colleague  flagged before 45 of 50 firings (90%); "no" frames (>= 2 mm short) flagged 35%; all laser-off frames flagged 39%
+
+Matched false alarms: threshold set so each flags the same share of "no" frames
+  5% of "no" frames flagged -> ours: firings flagged 74%, "yes" frames 52%;  colleague: firings flagged 28%, "yes" frames 21%
+  10% of "no" frames flagged -> ours: firings flagged 88%, "yes" frames 73%;  colleague: firings flagged 42%, "yes" frames 28%
+  20% of "no" frames flagged -> ours: firings flagged 94%, "yes" frames 89%;  colleague: firings flagged 74%, "yes" frames 50%
+
+AUC at 1 mm, ours - colleague (both smoothed): +0.174, 95% interval over firings [+0.074, +0.288]

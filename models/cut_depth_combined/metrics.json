@@ -1,0 +1,277 @@
+{
+  "group_by": "session",
+  "folds": 5,
+  "thresholds": {
+    "suspect": 0.6,
+    "confirm": 0.8
+  },
+  "target": "label",
+  "smooth_sec": 0.3,
+  "lag": {
+    "min": 0.2,
+    "target": 0.4,
+    "max": 0.8
+  },
+  "seed": 0,
+  "prefire_share": 0.0,
+  "epochs": 8,
+  "epoch_frames": 16000,
+  "results": {
+    "current rule": {
+      "auc_prefire": 0.5011110038620191,
+      "auc_cutting": 0.5267120916284175,
+      "auc_contact": 0.5011110038620191,
+      "auc_depth": {
+        "0.5mm": 0.5015729793566589,
+        "1mm": 0.5011110038620191,
+        "1.5mm": 0.5038636622282918,
+        "2mm": 0.5051785605834777
+      },
+      "auc_prefire_laser": 0.5348135974013757,
+      "suspect": {
+        "approaches": 479,
+        "false_alarm": 0.534446764091858,
+        "before_fire": 0.4197802197802198,
+        "before_fire_measurable": 455,
+        "by_1s": 0.5908141962421712,
+        "median_latency_s": 0.0
+      },
+      "confirm": {
+        "approaches": 479,
+        "false_alarm": 0.534446764091858,
+        "before_fire": 0.4197802197802198,
+        "before_fire_measurable": 455,
+        "by_1s": 0.5908141962421712,
+        "median_latency_s": 0.0
+      }
+    },
+    "spot": {
+      "auc_prefire": 0.4966038977310675,
+      "auc_cutting": 0.49755094330901933,
+      "auc_contact": 0.4966038977310675,
+      "auc_depth": {
+        "0.5mm": 0.5027115172950527,
+        "1mm": 0.4966038977310675,
+        "1.5mm": 0.48747215912323993,
+        "2mm": 0.4822026083486373
+      },
+      "auc_prefire_laser": 0.49615173045536154,
+      "suspect": {
+        "approaches": 479,
+        "false_alarm": 0.42379958246346555,
+        "before_fire": 0.3934065934065934,
+        "before_fire_measurable": 455,
+        "by_1s": 0.4968684759916493,
+        "median_latency_s": -0.36676526069641113
+      },
+      "confirm": {
+        "approaches": 479,
+        "false_alarm": 0.17118997912317327,
+        "before_fire": 0.07472527472527472,
+        "before_fire_measurable": 455,
+        "by_1s": 0.13778705636743216,
+        "median_latency_s": 0.6332926750183105
+      },
+      "export_max_abs_diff": 6.527684492940722e-08
+    },
+    "spot ~0.3s": {
+      "auc_prefire": 0.4992267948732197,
+      "auc_cutting": 0.491469173920346,
+      "auc_contact": 0.4992267948732197,
+      "auc_depth": {
+        "0.5mm": 0.5065258481224275,
+        "1mm": 0.4992267948732197,
+        "1.5mm": 0.48904690846239796,
+        "2mm": 0.4815767169466794
+      },
+      "auc_prefire_laser": 0.48872275766759943,
+      "suspect": {
+        "approaches": 479,
+        "false_alarm": 0.34237995824634654,
+        "before_fire": 0.33406593406593404,
+        "before_fire_measurable": 455,
+        "by_1s": 0.42171189979123175,
+        "median_latency_s": -0.2839595079421997
+      },
+      "confirm": {
+        "approaches": 479,
+        "false_alarm": 0.10855949895615867,
+        "before_fire": 0.05274725274725275,
+        "before_fire_measurable": 455,
+        "by_1s": 0.07724425887265135,
+        "median_latency_s": 0.633094072341919
+      }
+    },
+    "image": {
+      "auc_prefire": 0.7970097935148311,
+      "auc_cutting": 0.8390231581537302,
+      "auc_contact": 0.7970097935148311,
+      "auc_depth": {
+        "0.5mm": 0.7881400351130817,
+        "1mm": 0.7970097935148311,
+        "1.5mm": 0.8036178691953247,
+        "2mm": 0.8071736345476644
+      },
+      "auc_prefire_laser": 0.7246326366729037,
+      "suspect": {
+        "approaches": 479,
+        "false_alarm": 0.55741127348643,
+        "before_fire": 0.8527472527472527,
+        "before_fire_measurable": 455,
+        "by_1s": 0.9519832985386222,
+        "median_latency_s": -0.499920129776001
+      },
+      "confirm": {
+        "approaches": 479,
+        "false_alarm": 0.5073068893528184,
+        "before_fire": 0.7934065934065934,
+        "before_fire_measurable": 455,
+        "by_1s": 0.9081419624217119,
+        "median_latency_s": -0.4666635990142822
+      },
+      "export_max_abs_diff": 0.00012981891632080078
+    },
+    "image ~0.3s": {
+      "auc_prefire": 0.8031262020510124,
+      "auc_cutting": 0.8607289333004255,
+      "auc_contact": 0.8031262020510124,
+      "auc_depth": {
+        "0.5mm": 0.79737218991407,
+        "1mm": 0.8031262020510124,
+        "1.5mm": 0.8068300674356229,
+        "2mm": 0.8083408458538591
+      },
+      "auc_prefire_laser": 0.7366101964871608,
+      "suspect": {
+        "approaches": 479,
+        "false_alarm": 0.3987473903966597,
+        "before_fire": 0.7252747252747253,
+        "before_fire_measurable": 455,
+        "by_1s": 0.8413361169102297,
+        "median_latency_s": -0.4332587718963623
+      },
+      "confirm": {
+        "approaches": 479,
+        "false_alarm": 0.31941544885177453,
+        "before_fire": 0.643956043956044,
+        "before_fire_measurable": 455,
+        "by_1s": 0.778705636743215,
+        "median_latency_s": -0.3999495506286621
+      }
+    },
+    "combined": {
+      "auc_prefire": 0.8076907470615661,
+      "auc_cutting": 0.8486205220964196,
+      "auc_contact": 0.8076907470615661,
+      "auc_depth": {
+        "0.5mm": 0.8008771363983489,
+        "1mm": 0.8076907470615661,
+        "1.5mm": 0.8135456049645913,
+        "2mm": 0.8161226639506236
+      },
+      "auc_prefire_laser": 0.7343134634297585,
+      "suspect": {
+        "approaches": 479,
+        "false_alarm": 0.5386221294363257,
+        "before_fire": 0.8263736263736263,
+        "before_fire_measurable": 455,
+        "by_1s": 0.9394572025052192,
+        "median_latency_s": -0.46673083305358887
+      },
+      "confirm": {
+        "approaches": 479,
+        "false_alarm": 0.46764091858037576,
+        "before_fire": 0.778021978021978,
+        "before_fire_measurable": 455,
+        "by_1s": 0.9039665970772442,
+        "median_latency_s": -0.433351993560791
+      },
+      "export_max_abs_diff": 0.0001544952392578125
+    },
+    "combined ~0.3s": {
+      "auc_prefire": 0.8119515477748388,
+      "auc_cutting": 0.8687186555242467,
+      "auc_contact": 0.8119515477748388,
+      "auc_depth": {
+        "0.5mm": 0.8079179420444508,
+        "1mm": 0.8119515477748388,
+        "1.5mm": 0.8148697015445079,
+        "2mm": 0.8154308521841566
+      },
+      "auc_prefire_laser": 0.744212301826465,
+      "suspect": {
+        "approaches": 479,
+        "false_alarm": 0.3653444676409186,
+        "before_fire": 0.6989010989010989,
+        "before_fire_measurable": 455,
+        "by_1s": 0.8183716075156576,
+        "median_latency_s": -0.433243989944458
+      },
+      "confirm": {
+        "approaches": 479,
+        "false_alarm": 0.2630480167014614,
+        "before_fire": 0.6153846153846154,
+        "before_fire_measurable": 455,
+        "by_1s": 0.7473903966597077,
+        "median_latency_s": -0.39995110034942627
+      }
+    },
+    "temporal": {
+      "auc_prefire": 0.8018959337349467,
+      "auc_cutting": 0.853077535550649,
+      "auc_contact": 0.8018959337349467,
+      "auc_depth": {
+        "0.5mm": 0.7937380242436355,
+        "1mm": 0.8018959337349467,
+        "1.5mm": 0.8085520109122981,
+        "2mm": 0.8123964516115874
+      },
+      "auc_prefire_laser": 0.7276537628059985,
+      "suspect": {
+        "approaches": 479,
+        "false_alarm": 0.5407098121085595,
+        "before_fire": 0.8461538461538461,
+        "before_fire_measurable": 455,
+        "by_1s": 0.9436325678496869,
+        "median_latency_s": -0.4999716281890869
+      },
+      "confirm": {
+        "approaches": 479,
+        "false_alarm": 0.5052192066805845,
+        "before_fire": 0.7978021978021979,
+        "before_fire_measurable": 455,
+        "by_1s": 0.9164926931106472,
+        "median_latency_s": -0.46690845489501953
+      },
+      "export_max_abs_diff": 0.00015867972197181057
+    },
+    "temporal ~0.3s": {
+      "auc_prefire": 0.8040710902063665,
+      "auc_cutting": 0.8685025161990171,
+      "auc_contact": 0.8040710902063665,
+      "auc_depth": {
+        "0.5mm": 0.7987181222415187,
+        "1mm": 0.8040710902063665,
+        "1.5mm": 0.8076351391874101,
+        "2mm": 0.8094270932746692
+      },
+      "auc_prefire_laser": 0.733129388512798,
+      "suspect": {
+        "approaches": 479,
+        "false_alarm": 0.4112734864300626,
+        "before_fire": 0.7362637362637363,
+        "before_fire_measurable": 455,
+        "by_1s": 0.8643006263048016,
+        "median_latency_s": -0.4360024929046631
+      },
+      "confirm": {
+        "approaches": 479,
+        "false_alarm": 0.3465553235908142,
+        "before_fire": 0.6615384615384615,
+        "before_fire_measurable": 455,
+        "by_1s": 0.7995824634655533,
+        "median_latency_s": -0.39995431900024414
+      }
+    }
+  }
+}

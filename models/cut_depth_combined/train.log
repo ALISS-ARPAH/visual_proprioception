@@ -1,0 +1,52 @@
+100277 frames, 479 approaches, 11 lesion(s), 5 session(s); 5-fold CV holding out whole sessions
+loading 100277 crops; training on cuda
+  spot fold 1/5: 0 s
+  spot fold 2/5: 0 s
+  spot fold 3/5: 0 s
+  spot fold 4/5: 0 s
+  spot fold 5/5: 0 s
+spot: done in 3 s -> /home/james/aliss_runs/contact_full/runD_seed0/spot/model.json (runtime vs training output, max diff 6.5e-08)
+  image fold 1/5: 99 s
+  image fold 2/5: 194 s
+  image fold 3/5: 284 s
+  image fold 4/5: 377 s
+  image fold 5/5: 478 s
+image: done in 571 s -> /home/james/aliss_runs/contact_full/runD_seed0/image/model.json (runtime vs training output, max diff 1.3e-04)
+  combined fold 1/5: 98 s
+  combined fold 2/5: 193 s
+  combined fold 3/5: 284 s
+  combined fold 4/5: 377 s
+  combined fold 5/5: 479 s
+combined: done in 572 s -> /home/james/aliss_runs/contact_full/runD_seed0/combined/model.json (runtime vs training output, max diff 1.5e-04)
+  temporal fold 1/5: 197 s
+  temporal fold 2/5: 391 s
+  temporal fold 3/5: 573 s
+  temporal fold 4/5: 761 s
+  temporal fold 5/5: 967 s
+temporal: done in 1152 s -> /home/james/aliss_runs/contact_full/runD_seed0/temporal/model.json (runtime vs training output, max diff 1.6e-04)
+
+per-approach columns use the confirm threshold (0.8); before fire is out of the 455 of 479 approaches with a pre-fire frame
+model                AUC pre-fire AUC cutting false alarm before fire  by +1 s  latency
+current rule                 0.50        0.53         53%         42%      59%   +0.00s
+spot                         0.50        0.50         17%          7%      14%   +0.63s
+spot ~0.3s                   0.50        0.49         11%          5%       8%   +0.63s
+image                        0.80        0.84         51%         79%      91%   -0.47s
+image ~0.3s                  0.80        0.86         32%         64%      78%   -0.40s
+combined                     0.81        0.85         47%         78%      90%   -0.43s
+combined ~0.3s               0.81        0.87         26%         62%      75%   -0.40s
+temporal                     0.80        0.85         51%         80%      92%   -0.47s
+temporal ~0.3s               0.80        0.87         35%         66%      80%   -0.40s
+
+AUC by cutting-range cutoff c (within c mm vs c + 1 mm or more short)
+model                  0.5mm     1mm   1.5mm     2mm   MAE (near) mm
+current rule            0.50    0.50    0.50    0.51
+spot                    0.50    0.50    0.49    0.48
+spot ~0.3s              0.51    0.50    0.49    0.48
+image                   0.79    0.80    0.80    0.81
+image ~0.3s             0.80    0.80    0.81    0.81
+combined                0.80    0.81    0.81    0.82
+combined ~0.3s          0.81    0.81    0.81    0.82
+temporal                0.79    0.80    0.81    0.81
+temporal ~0.3s          0.80    0.80    0.81    0.81
+
+metrics, predictions and timelines.png in /home/james/aliss_runs/contact_full/runD_seed0

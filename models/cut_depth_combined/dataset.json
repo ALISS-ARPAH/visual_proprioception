@@ -1,0 +1,75 @@
+{
+  "data_root": "/home/james/Resection_Data_Visual_Prop_merged",
+  "created": "2026-11-12T15:20:00",
+  "labels": {
+    "scheme": "depth",
+    "neg_before": 0.5,
+    "pos_pre": 0.15,
+    "pos_cut": 1.0,
+    "depth_pos_mm": 1.0,
+    "depth_neg_mm": 2.0,
+    "lateral_mm": 2.0,
+    "retry_s": 8.0,
+    "retry_deeper_mm": 0.5
+  },
+  "join_gap": 0.3,
+  "spot_params": {
+    "h_min": 25,
+    "h_max": 78,
+    "s_min": 45,
+    "v_min": 70,
+    "contrast_min": 18,
+    "bg_ksize": 41,
+    "min_area_px": 6.0,
+    "max_elongation": 4.0,
+    "tip_gate_px": 120.0
+  },
+  "window": {
+    "short_window_s": 0.5,
+    "long_window_s": 1.5,
+    "max_gap_s": 1.0
+  },
+  "feature_names": [
+    "detected",
+    "sqrt_area",
+    "minor_axis",
+    "elongation",
+    "peak_contrast",
+    "log_energy",
+    "n_blobs",
+    "sqrt_area2",
+    "detected_frac",
+    "sqrt_area_slope",
+    "shrink_ratio"
+  ],
+  "crop_center": "spot near the projected tip, else projected tip, else last spot (1.5 s)",
+  "frames": {
+    "approaching": 19983,
+    "pre-fire": 11847,
+    "cutting": 13876,
+    "excluded": 54571
+  },
+  "sequences": 479,
+  "retried_firings": 32,
+  "lesions": [
+    "bladder_tele_virtuoso_00_YM4PDy7B/lesion_1",
+    "bladder_tele_virtuoso_00_YM4PDy7B/lesion_2",
+    "bladder_tele_virtuoso_01_uxaOiMg4/lesion_1",
+    "bladder_tele_virtuoso_01_uxaOiMg4/lesion_2",
+    "bladder_tele_virtuoso_01_uxaOiMg4/lesion_3",
+    "bladder_tele_virtuoso_01_uxaOiMg4/lesion_4",
+    "bladder_tele_vu_00_3fa7adea/lesion_1",
+    "bladder_tele_vu_00_3fa7adea/lesion_2",
+    "bladder_tele_vu_01_ecd8f6c6/lesion_1",
+    "bladder_tele_vu_02_c467c276/lesion_1",
+    "bladder_tele_vu_02_c467c276/lesion_2"
+  ],
+  "sessions": [
+    "bladder_tele_virtuoso_00_YM4PDy7B",
+    "bladder_tele_virtuoso_01_uxaOiMg4",
+    "bladder_tele_vu_00_3fa7adea",
+    "bladder_tele_vu_01_ecd8f6c6",
+    "bladder_tele_vu_02_c467c276"
+  ],
+  "duplicates": []
+}

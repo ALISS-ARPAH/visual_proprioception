@@ -1,0 +1,16 @@
+  1000 frames, 33 s of recording, 29 s elapsed
+  2000 frames, 67 s of recording, 57 s elapsed
+  3000 frames, 100 s of recording, 84 s elapsed
+  4000 frames, 134 s of recording, 113 s elapsed
+  5000 frames, 167 s of recording, 141 s elapsed
+  6000 frames, 200 s of recording, 169 s elapsed
+  7000 frames, 391 s of recording, 198 s elapsed
+[WARN] [1794530763.869383849] [rosbag2_storage_mcap]: attempted to read in receive timestamp order with no message index
+  8000 frames, 424 s of recording, 225 s elapsed
+  9000 frames, 457 s of recording, 251 s elapsed
+  10000 frames, 491 s of recording, 279 s elapsed
+/home/james/aliss_runs/test_data/cut_1_prediction.mp4 (358 s video) and /home/james/aliss_runs/test_data/cut_1_prediction.csv
+10685 frames over 513 s; laser on in 9% of frames
+  laser on : mean P 0.67, P >= 0.8 in 46%
+  laser off: mean P 0.31, P >= 0.8 in 20%
+  8 laser-on events; P >= 0.8 in the second before 6 of them (75%)

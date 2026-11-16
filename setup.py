@@ -21,6 +21,10 @@ setup(
             'share/' + package_name + '/launch',
             ['launch/laser_depth_estimation.launch.py']
         ),
+        (
+            'share/' + package_name + '/models/cut_depth_combined',
+            ['models/cut_depth_combined/model.json', 'models/cut_depth_combined/model.onnx']
+        ),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -37,6 +41,11 @@ setup(
             'laser_depth_area_logger = visual_proprioception.laser_depth_area_logger:main',
             'laser_tissue_touch_node = visual_proprioception.laser_tissue_touch_node:main',
             'laser_spot_monitor_gui = visual_proprioception.laser_spot_monitor_gui:main',
+            'laser_contact_model_node = visual_proprioception.laser_contact_model_node:main',
+            'build_contact_dataset = visual_proprioception.contact_dataset:main',
+            'train_contact_model = visual_proprioception.contact_train:main',
+            'render_contact_video = visual_proprioception.contact_video:main',
+            'score_contact_bag = visual_proprioception.contact_bag:main',
         ],
     },
 )
