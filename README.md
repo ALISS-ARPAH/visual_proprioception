@@ -19,9 +19,10 @@ ROS 2 package for laser-based visual proprioception with a concentric tube robot
 | `laser_spot_analysis_node` | Measures segmented spot area and shape | `/laser/segmentation_mask`, `/laser/segmentation_overlay` | `/laser/spot/area_px2`, `/laser/spot/analysis_overlay` (plus other spot metrics) |
 | `laser_tissue_touch_node` | Estimates contact using spot area | `/laser/spot/area_px2` | `/tissue_touched` (`std_msgs/Bool`) |
 | `laser_tissue_triangulation_node` | Estimates tissue position and distance from the camera and laser rays | Segmentation mask/overlay, camera info, CTR tip pose | `/laser/tissue_point`, `/laser/tissue_distance`, `/laser/triangulation_residual`, `/laser/triangulation_overlay`, `/laser/triangulation_debug_overlay` |
-| `laser_spot_monitor_gui` | Displays spot overlay, area history, and touch status; adjusts touch threshold | `/laser/spot/analysis_overlay`, `/laser/spot/area_px2`, `/tissue_touched` | GUI display and touch-threshold parameter updates |
+| `laser_spot_monitor_gui` | Displays spot overlay, area history, touch status and the cut prediction; adjusts touch threshold | `/laser/spot/analysis_overlay`, `/laser/spot/area_px2`, `/tissue_touched`, `/laser/cut/probability`, `/laser/cut/close`, `/laser/cut/ready` | GUI display and touch-threshold parameter updates |
+| `laser_cut_predictor_node` | Learned cut predictor: P that firing now gives a successful cut (see [Learned contact model](#learned-contact-model)) | `/ves_camera/image`, `/ves_camera/camera_info`, `/ves_smoother/right/tip_pose` | `/laser/cut/probability`, `/laser/cut/close` (P ≥ 0.6), `/laser/cut/ready` (P ≥ 0.8), `/laser/cut/overlay` |
 | `laser_depth_area_logger` | Optionally logs paired distance and area measurements | `/laser/tissue_distance`, `/laser/spot/area_px2` | CSV file (default `~/laser_calibration_data/depth_area.csv`) |
-| `laser_contact_model_node` | Learned cutting-depth detector (see [Learned contact model](#learned-contact-model)) | `/ves_camera/image`, `/ves_smoother/right/tip_pose`, `/ves_camera/camera_info` | `/laser/contact/probability`, `/laser/contact/suspected`, `/laser/contact/touched`, `/laser/contact/overlay` |
+| `laser_contact_model_node` | Same model as `laser_cut_predictor_node` under the older topic names; needs `model_path` | `/ves_camera/image`, `/ves_smoother/right/tip_pose`, `/ves_camera/camera_info` | `/laser/contact/probability`, `/laser/contact/suspected`, `/laser/contact/touched`, `/laser/contact/overlay` |
 
 **Note:** Topic names above reflect the current development configuration. Confirm the defaults in the node scripts or use `ros2 node info /<node_name>` if topics have been remapped.
 
@@ -41,17 +42,35 @@ The camera and CTR tip-pose publishers must also be running (or provided through
 
 ## Run
 
-Launch the main processing nodes and monitoring GUI:
+Launch the main processing nodes, the learned cut predictor and the monitoring GUI:
 
 ```bash
 ros2 launch visual_proprioception laser_depth_estimation.launch.py
 ```
+
+The GUI then shows the cut prediction (TOO SHALLOW / CLOSE / RIGHT DEPTH and P) above the segmented image. Launch arguments:
+
+| Argument | Default | Meaning |
+|---|---|---|
+| `use_sim_time` | `false` | `true` for rosbag playback with `/clock` |
+| `area_threshold_px2` | `1000.0` | contact threshold of `laser_tissue_touch_node` |
+| `cut_predictor` | `true` | also run `laser_cut_predictor_node`; `false` = area-based nodes only, and the GUI banner shows N/A |
 
 For rosbag playback with `/clock`:
 
 ```bash
 ros2 launch visual_proprioception laser_depth_estimation.launch.py \
   use_sim_time:=true area_threshold_px2:=1500.0
+# in another terminal:
+ros2 bag play <bag> --clock
+```
+
+To run only the cut predictor, without the GUI or the other nodes (e.g. on the robot):
+
+```bash
+ros2 launch visual_proprioception laser_cut_predictor.launch.py
+# options: model_path:=<model.json> image_topic:=... camera_info_topic:=... tip_pose_topic:=...
+#          suspect_threshold:=0.6 confirm_threshold:=0.8 smooth_sec:=0.3 use_sim_time:=true
 ```
 
 To run individual nodes instead:
@@ -61,6 +80,7 @@ ros2 run visual_proprioception laser_segmentation_node
 ros2 run visual_proprioception laser_spot_analysis_node
 ros2 run visual_proprioception laser_tissue_touch_node
 ros2 run visual_proprioception laser_tissue_triangulation_node
+ros2 run visual_proprioception laser_cut_predictor_node
 ros2 run visual_proprioception laser_spot_monitor_gui
 ```
 
@@ -77,6 +97,8 @@ ros2 topic list | grep -E 'laser|tissue_touched'
 ros2 topic echo /laser/spot/area_px2
 ros2 topic echo /laser/tissue_distance
 ros2 topic echo /tissue_touched
+ros2 topic echo /laser/cut/probability   # P(successful cut), from laser_cut_predictor_node
+ros2 topic echo /laser/cut/ready         # true when P >= 0.8 (right depth)
 ```
 
 ## GUI Monitoring and Contact Threshold Adjustment
